@@ -1,24 +1,58 @@
 import React, { Component } from "react";
-import { Menu, Icon, Button, Layout, Row, Col } from "antd";
+import { connect } from "react-redux";
+import { Menu, List, Form, Icon, Button, Layout, Row, Col, Card } from "antd";
 import { Link } from "react-router-dom";
+import { getPro } from "../../redux/actions/Get_List";
 
 const { Header, Content, Footer } = Layout;
 
-class Home extends Component {
+class MTSA extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      current: "mail"
+      data: {
+        proName: "",
+        proStartDate: "",
+        proEndDate: "",
+        empNum: ""
+      },
+      loading: false,
+      errors: {}
     };
   }
+
+  onChange = e =>
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value }
+    });
+
   handleClick = e => {
     console.log("click ", e);
     this.setState({
       current: e.key
     });
   };
+
+  onShow = e => {
+    this.setState({
+      visible: true
+    });
+    const { firstName, lastName, primaryEmail } = this.state.data;
+    this.props.dispatch(
+      getPro({
+        firstName: firstName,
+        lastName: lastName,
+        primaryEmail: primaryEmail
+      })
+    );
+
+    this.props.history.push("/mTSA");
+  };
+
   render() {
+    const data1 = Array.from(this.props.empList);
+    // const { data } = this.state;
     return (
       <div>
         <Layout>
@@ -79,37 +113,27 @@ class Home extends Component {
               minHeight: 580
             }}
           >
-            <Row>
-              <Col span={8}>
-                {" "}
-                <Link to={{ pathname: "/TimeSheetCalander" }}>
-                  Monthly Timesheet{" "}
-                </Link>{" "}
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <Col span={8}>
-                {" "}
-                <Link to={{ pathname: "/addEmployee" }}>Add Employee</Link>{" "}
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <Col span={8}>
-                {" "}
-                <Link to={{ pathname: "/listEmployees" }}>
-                  List of SignUp Employees
-                </Link>{" "}
-              </Col>
-            </Row>
-            <br />
-            <Row>
-              <Col span={8}>
-                {" "}
-                <Link to={{ pathname: "/search" }}>Search Employee</Link>{" "}
-              </Col>
-            </Row>
+            <Col span={8}>
+              <Card title="Project List" span={4}>
+                <Form span={4}>
+                  <List
+                    bordered
+                    dataSource={data1}
+                    renderItem={item => (
+                      <List.Item>
+                        {item.proName}
+                        {"    ||    "}
+                        {item.proStartDate}
+                        {"    ||    "}
+                        {item.proEndDate}
+                        {"    ||    "}
+                        {item.empNum}
+                      </List.Item>
+                    )}
+                  />
+                </Form>
+              </Card>
+            </Col>
           </Content>
 
           <Footer>
@@ -124,4 +148,11 @@ class Home extends Component {
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  //console.log("STATE" + JSON.stringify(state.empList.result));
+  return {
+    empList: state.empList.result
+  };
+}
+
+export default connect(mapStateToProps)(MTSA);

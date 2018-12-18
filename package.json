@@ -2,16 +2,21 @@
   "name": "emp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://adit12t.github.io/EmployeeApplicationUI/",
   "dependencies": {
-    "antd": "^3.10.4",
+    "antd": "^3.10.9",
+    "gh-pages": "^2.0.1",
     "moment": "^2.22.2",
+    "mongodb": "^3.1.10",
     "proptypes": "^1.1.0",
     "react": "^16.6.0",
+    "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0",
+    "react-phone-number-input": "^2.2.18",
     "react-redux": "^5.1.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
+    "react-scripts": "^2.1.1",
     "react-widgets": "^4.4.6",
     "redux": "^4.0.1",
     "redux-form": "^7.4.2",
@@ -19,13 +24,17 @@
     "redux-saga": "^0.16.2",
     "reqwest": "^2.0.5",
     "save": "^2.3.2",
+    "shebang-command": "^1.2.0",
+    "spdy": "^4.0.0",
     "validator": "^10.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +44,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {}
 }
